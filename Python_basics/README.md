@@ -1,6 +1,10 @@
-# Python basics exercises 
+# Python Basics Exercises
 
-This directory contains simple exercises in basic Python covering the following topics:
-Strings, numbers, loops, and conditions
+This directory contains simple Python exercises covering fundamental topics such as:
 
-however, subjects like functions or operators are also exist in fome exercises.
+- Strings
+- Numbers
+- Loops
+- Conditions
+
+Some exercises also include concepts such as functions and operators.
