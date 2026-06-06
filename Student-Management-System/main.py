@@ -50,18 +50,20 @@ while True:
     print("3. Search Student")
     print("4. Delete Student")
     print("5. Save Data")
-    print("6. Exit")
+    print("6. Load data")
+    print("7. Exit")
 
     try:
-        option = int(input("Choose an Option between 1 - 6\n(just the number): "))
+        option = int(input("Choose an Option between 1 - 7\n(just the number): "))
     
     except ValueError:
         print("Invalid Input")
         continue
     
     # if option.upper() in ["6","EXIT","6. EXIT","6.EXIT"]:
-    if option == 6:
+    if option == 7:
         break
+
     elif option == 1:
         while True:
             student_info = get_info()
@@ -82,28 +84,28 @@ while True:
             
     elif option == 3:
 
-        names_list = [student.name for student in std_list]
-
         while True:
             searched_name = input("Enter the name:_________")
             
-            if searched_name in names_list:
-                print(f"The name {searched_name} is in the list\n-------------------")
-            else:
-                print(f"name {searched_name} is not exist\n----------------------")
+            for student in std_list:
+                if student.name == searched_name:
+                    print("-"*20)
+                    print(student)
+                    break
             repeat = input("Enter '+' to search again\nor press Enter for main menu ")
             if repeat != "+":
                     break
 
     elif option == 4:
-        found = False
         while True:
+            found = False
             Id = int(input("Enter the id you want to remove: "))
             for student in std_list:
                 if Id == student.id:
                     std_list.remove(student)
                     print(f"name {student.name} is removed\n---------------------")
                     found = True
+                    break
             if not found:
                 print("this Id is not exist\n------------------------")
             repeat = input("Enter '+' to delete another item\nor press Enter for main menu ")
@@ -128,6 +130,29 @@ while True:
                 indent = 4
                 )
         print("data saved successfully")
+
+    elif option == 6:
+        std_list.clear()
+        
+        try:
+            with open("students.json", "r") as std:
+                data = json.load(std)
+        except FileNotFoundError as e:
+            print("File not founded")
+            continue
+
+        max_id = 0
+        for item in data:
+            student_obj = student.Student(
+                item["name"],
+                item["age"],
+                item["grade"],
+                item["id"]
+            )
+            std_list.append(student_obj)
+            if item["id"] > max_id:
+                max_id = item["id"]
+        student.Student.first_id = max_id + 1
+
     else:
-        # raise TypeError("Entered Value must be an Integer")
-        break # فعلا این باشه تا آخرسر
+        raise TypeError("Entered Value must be an Integer")
