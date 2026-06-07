@@ -1,6 +1,5 @@
 import student
-import json
-
+import storage
 # -------------------------------------------------------- #
 def get_info():
 
@@ -113,46 +112,17 @@ while True:
                     break
             
     elif option == 5:
-
-        with open("students.json" , "w") as std:
-            save_list = []
-            for student in std_list:
-                data = {
-                    "id": student.id,
-                    "name": student.name,
-                    "age": student.age,
-                    "grade": student.grade
-                    }
-                save_list.append(data)
-            json.dump(
-                save_list,
-                std,
-                indent = 4
-                )
-        print("data saved successfully")
+        # save data using storage module
+        storage.save_data(std_list)
 
     elif option == 6:
-        std_list.clear()
-        
+
         try:
-            with open("students.json", "r") as std:
-                data = json.load(std)
+            # load data using storage module and put it into std_list
+            std_list = storage.load_data(std_list)
         except FileNotFoundError as e:
             print("File not founded")
             continue
-
-        max_id = 0
-        for item in data:
-            student_obj = student.Student(
-                item["name"],
-                item["age"],
-                item["grade"],
-                item["id"]
-            )
-            std_list.append(student_obj)
-            if item["id"] > max_id:
-                max_id = item["id"]
-        student.Student.first_id = max_id + 1
-
+    
     else:
         raise TypeError("Entered Value must be an Integer")
