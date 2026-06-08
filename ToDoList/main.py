@@ -26,7 +26,6 @@ def add_to_todolist(todolist,task):
 
 # --------------------------------------------------------------------- #
 
-# create a ToDoList
 todo = todolist.ToDoList()
 
 while True:
@@ -46,7 +45,7 @@ while True:
     elif choose == 1:
 
         while True:
-            # create task,todo_object and add it to ToDoList
+
             task_obj = create_task()
             add_to_todolist(todo, task_obj)
             repeat = input("For add another task, Enter '+'\nand for return to menu press Enter: ")
@@ -56,7 +55,7 @@ while True:
     elif choose == 2:
 
         while True:
-            # remowes an object from task list
+
             try:
                 obj_to_remove = int(input("enter the id for remove: "))
             except ValueError as e:
@@ -70,23 +69,29 @@ while True:
                 break
     elif choose == 3:
         
-        # Display all registered tasks
         tasks = todo.task_review()
         print(tasks)
 
     elif choose == 4:
 
-        # convert data to saveable list
         data = []
         for task in todo.tasks:
             item = {
+                "id": task.id,
                 "name": task.name,
                 "discription": task.description,
                 "priority": task.priority
             }
             data.append(item)
-        # saves data in a CSV file
+
         storage.save_data(data)
+
+    elif choose == 5:
+
+        file_name = input("\nEnter file name or path: \n")
+        loaded_list = storage.load_data(file_name)
+        for task in loaded_list:
+            todo.add_task(task)
 
 
 

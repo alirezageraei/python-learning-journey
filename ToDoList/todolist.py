@@ -19,6 +19,7 @@ class ToDoList:
                 print(f"Task {task.name} remowed successfully!")
     
     def task_review(self):
+        res = ''
         for task in self.tasks:
-            print(
-                f"task: {task.name}\ndescription: {task.description[:30]}\nPriority: {task.priority}\n\n" + "-" * 20)
+            res += (f"\ntask: {task.name}\ndescription: {task.description[:30]}\nPriority: {task.priority}\n\n" + "-" * 20)
+        return res
