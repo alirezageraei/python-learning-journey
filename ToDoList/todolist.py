@@ -5,6 +5,7 @@ class ToDoList:
     def __init__(self):
         self.tasks = []
 
+
     def add_task(self,task):
 
         # add task by its name
@@ -19,7 +20,28 @@ class ToDoList:
                 print(f"Task {task.name} remowed successfully!")
     
     def task_review(self):
+
+        priority_map = {
+            "High": 3,
+            "Medium": 2,
+            "Low": 1
+        }
+
+        sorted_tasks = sorted(
+            self.tasks,
+            key=lambda task: priority_map.get(task.priority, 0),
+            reverse=True
+        )
+
         res = ''
-        for task in self.tasks:
-            res += (f"\ntask: {task.name}\ndescription: {task.description[:30]}\nPriority: {task.priority}\n\n" + "-" * 20)
-        return res
+
+        for task in sorted_tasks:
+            res += (
+                f"\nid: {task.id}"
+                f"\ntask: {task.name}"
+                f"\ndescription: {task.description[:30]}"
+                f"\nPriority: {task.priority}\n\n"
+                + "-" * 20
+            )
+
+        return res if res != '' else "\n***Task not found***\n"

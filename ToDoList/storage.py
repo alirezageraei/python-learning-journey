@@ -24,8 +24,9 @@ def load_data(file_name):
                 reader = csv.DictReader(t)
                 res = []
                 for row in reader:
-                    task_obj = task.Task(row["name"],row["discription"],row["priority"])
+                    task_obj = task.Task(row["name"],row["discription"],row["priority"],int(row["id"]))
                     res.append(task_obj)
+            print("\n*****data imported successfully!*****\n")
             break 
         except FileNotFoundError:
             print(f"Please enter a valid file path, {file_name} not found")
@@ -33,6 +34,6 @@ def load_data(file_name):
     max_id = 0
     for i in res:
         if i.id > max_id:
-            max_id == i.id
+            max_id = i.id
     task.Task.task_id = max_id + 1
     return res 

@@ -5,12 +5,21 @@ import storage
 
 def get_info():
     
-    # gets nessesary informations
     name = input("Task name: ")
     describe = input("Task description: ")
-    priority = input("Task Priority\nchoose between:\nHigh\nMedium\nLow\n_______:")
-
-    return name, describe, priority
+    while True:
+    # gets nessesary informations
+        priority = input(
+            "Task Priority\nchoose between:\nHigh\nMedium\nLow\n_______:"
+            )
+        
+        priority = priority.capitalize()
+        priority_options = ["High", "Medium","Low"]
+        
+        if priority not in priority_options:
+            print("Priority must be one of the options, please try again")
+        else:
+            return name, describe, priority
 
 def create_task():
     
@@ -75,12 +84,12 @@ while True:
     elif choose == 4:
 
         data = []
-        for task in todo.tasks:
+        for task_obj in todo.tasks:
             item = {
-                "id": task.id,
-                "name": task.name,
-                "discription": task.description,
-                "priority": task.priority
+                "id": task_obj.id,
+                "name": task_obj.name,
+                "discription": task_obj.description,
+                "priority": task_obj.priority
             }
             data.append(item)
 
@@ -89,9 +98,10 @@ while True:
     elif choose == 5:
 
         file_name = input("\nEnter file name or path: \n")
+        todo.tasks.clear()
         loaded_list = storage.load_data(file_name)
-        for task in loaded_list:
-            todo.add_task(task)
+        for task_obj in loaded_list:
+            todo.add_task(task_obj)
 
 
 
