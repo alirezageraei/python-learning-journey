@@ -1,1 +1,6 @@
-csv-data 
+id,name,discription,priority
+1,Study Python,Complete OOP exercises and review decorators,High
+2,Buy Groceries,Buy milk eggs bread and fruits,Medium
+3,Clean Room,Organize desk and clean the room,Low
+4,Finish ToDo Project,Implement CSV loading and priority sorting,High
+5,Morning Run,Run 5 kilometers before breakfast,Medium

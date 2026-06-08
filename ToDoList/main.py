@@ -1,14 +1,25 @@
 import todolist
 import task
+import storage
+
 
 def get_info():
     
-    # gets nessesary informations
     name = input("Task name: ")
     describe = input("Task description: ")
-    priority = input("Task Priority\nchoose between:\nHigh\nMedium\nLow\n_______:")
-
-    return name, describe, priority
+    while True:
+    # gets nessesary informations
+        priority = input(
+            "Task Priority\nchoose between:\nHigh\nMedium\nLow\n_______:"
+            )
+        
+        priority = priority.capitalize()
+        priority_options = ["High", "Medium","Low"]
+        
+        if priority not in priority_options:
+            print("Priority must be one of the options, please try again")
+        else:
+            return name, describe, priority
 
 def create_task():
     
@@ -24,7 +35,6 @@ def add_to_todolist(todolist,task):
 
 # --------------------------------------------------------------------- #
 
-# create a ToDoList
 todo = todolist.ToDoList()
 
 while True:
@@ -42,17 +52,19 @@ while True:
         break
 
     elif choose == 1:
+
         while True:
-            # create task,todo_object and add it to ToDoList
+
             task_obj = create_task()
             add_to_todolist(todo, task_obj)
-            repeat = input("For add another task, Enter '+'\nand for return to menu press Enter")
+            repeat = input("For add another task, Enter '+'\nand for return to menu press Enter: ")
             if repeat != '+':
                 break
 
     elif choose == 2:
+
         while True:
-            # remowes an object from task list
+
             try:
                 obj_to_remove = int(input("enter the id for remove: "))
             except ValueError as e:
@@ -64,7 +76,33 @@ while True:
             repeat = input("For add another task, Enter '+'\nand for return to menu press Enter")
             if repeat != '+':
                 break
+    elif choose == 3:
         
+        tasks = todo.task_review()
+        print(tasks)
+
+    elif choose == 4:
+
+        data = []
+        for task_obj in todo.tasks:
+            item = {
+                "id": task_obj.id,
+                "name": task_obj.name,
+                "discription": task_obj.description,
+                "priority": task_obj.priority
+            }
+            data.append(item)
+
+        storage.save_data(data)
+
+    elif choose == 5:
+
+        file_name = input("\nEnter file name or path: \n")
+        todo.tasks.clear()
+        loaded_list = storage.load_data(file_name)
+        for task_obj in loaded_list:
+            todo.add_task(task_obj)
+
 
 
         """for desc in task.description:
