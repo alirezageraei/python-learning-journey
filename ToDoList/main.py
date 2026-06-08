@@ -1,5 +1,7 @@
 import todolist
 import task
+import storage
+
 
 def get_info():
     
@@ -42,15 +44,17 @@ while True:
         break
 
     elif choose == 1:
+
         while True:
             # create task,todo_object and add it to ToDoList
             task_obj = create_task()
             add_to_todolist(todo, task_obj)
-            repeat = input("For add another task, Enter '+'\nand for return to menu press Enter")
+            repeat = input("For add another task, Enter '+'\nand for return to menu press Enter: ")
             if repeat != '+':
                 break
 
     elif choose == 2:
+
         while True:
             # remowes an object from task list
             try:
@@ -64,7 +68,26 @@ while True:
             repeat = input("For add another task, Enter '+'\nand for return to menu press Enter")
             if repeat != '+':
                 break
+    elif choose == 3:
         
+        # Display all registered tasks
+        tasks = todo.task_review()
+        print(tasks)
+
+    elif choose == 4:
+
+        # convert data to saveable list
+        data = []
+        for task in todo.tasks:
+            item = {
+                "name": task.name,
+                "discription": task.description,
+                "priority": task.priority
+            }
+            data.append(item)
+        # saves data in a CSV file
+        storage.save_data(data)
+
 
 
         """for desc in task.description:

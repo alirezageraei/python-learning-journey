@@ -20,8 +20,5 @@ class ToDoList:
     
     def task_review(self):
         for task in self.tasks:
-            return {
-                "task": task.name,
-                "description": task.description[:30],
-                "Priority" : task.priority
-            }
+            print(
+                f"task: {task.name}\ndescription: {task.description[:30]}\nPriority: {task.priority}\n\n" + "-" * 20)
