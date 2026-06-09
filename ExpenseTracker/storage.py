@@ -3,16 +3,16 @@ import expense
 
 def save_data(object_list):
 
+    data = []
+    for obj in object_list:
+        data.append({
+        "id" : obj.id,
+        "amount" : obj.amount,
+        "description" : obj.description,
+        "category" : obj.category,
+        "date" : obj.date
+    })
     with open("expenses.json", "w") as exp:
-        data = []
-        for obj in object_list:
-            data.append({
-                "id" : obj.id,
-                "amount" : obj.amount,
-                "description" : obj.description,
-                "category" : obj.category,
-                "date" : obj.date
-            })
             json.dump(data, exp, indent=4)
             print(f"\n***Data saved in expenses.json successfully***\n")
 

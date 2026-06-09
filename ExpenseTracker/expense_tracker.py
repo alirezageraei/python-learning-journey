@@ -5,31 +5,29 @@ class ExpenseTracker:
         self.expenses = []
 
     def add_expense(self, expense_obj):
-        
-        return self.expenses.append(expense_obj)
+        self.expenses.append(expense_obj)
     
     def remove_expense(self, id_to_remove):
 
         for obj in self.expenses:
             if obj.id == id_to_remove:
-                self.expenses.remove(id_to_remove)
+                self.expenses.remove(obj)
                 return("\n***Object removed successfully***\n")
         return f"\nNo object found with Id {id_to_remove}\n"
     
     
     def show_all(self):
 
-        if not len(self.expenses):
+        if not self.expenses:
             return "\n***Track list in empty***\n"
         else:
-            res = ""
+            res = "" 
             for obj in self.expenses:
                 res += (
-                    "-" * 30 +
-                    f"\nID: {obj.id}"
-                    f"\namount: {obj.amount}"
-                    f"\ndescription: {obj.description}"
-                    f"\ncategory: {obj.category}\n"
+                    f"\nID: {obj.id}"+
+                    f"\namount: {obj.amount}"+
+                    f"\ndescription: {obj.description}"+
+                    f"\ncategory: {obj.category}\n"+
                     "-" * 30 
                 )
             
@@ -38,19 +36,20 @@ class ExpenseTracker:
     def show_category(self, cat_to_show):
         
         found = False
+        res = ""
         for obj in self.expenses:
             if obj.category == cat_to_show:
                 found = True
-                print(
-                    "-" * 30 +
-                    f"\nID: {obj.id}"
-                    f"\namount: {obj.amount}"
-                    f"\ndescription: {obj.description}"
-                    f"\ncategory: {obj.category}"
+                res += (
+                    f"\nID: {obj.id}"+
+                    f"\namount: {obj.amount}"+
+                    f"\ndescription: {obj.description}"+
+                    f"\ncategory: {obj.category}\n"+
                     "-" * 30 
                 )
         if not found:
             return "\n***This category is not exist***\n"
+        return res
 
     def total(self):
 
@@ -77,20 +76,22 @@ class ExpenseTracker:
         """
         returns the x highest values
         """
-        top_x = []
-        items = []
-
-        for obj in self.expenses:
-            addition = (obj.id, obj.amount)
-            items.append(addition)
-
-        while len(top_x) < int(x):
-            top_x.append(max(items))
-            items.remove(max(items))
-        
-        return (
-            f"\n***These are the Highest amount of your expenses***\n"+
-            f"Id: {top_x[0][0]}\namount: {top_x[0][1]}\n" +
-            f"Id: {top_x[1][0]}\namount: {top_x[1][1]}\n" +
-            f"Id: {top_x[2][0]}\namount: {top_x[2][1]}\n"
+        sorted_items = sorted(
+            self.expenses,
+            key=lambda obj: obj.amount,
+            reverse=True
         )
+
+        top_x = sorted_items[:x]
+
+        res = "\n***These are the Highest amount of your expenses***\n"
+
+        for obj in top_x:
+            res += (
+                f"\nId: {obj.id}"
+                f"\namount: {obj.amount}"
+                f"\ncategory: {obj.category}"
+                "\n" + "-" * 20
+            )
+
+        return res

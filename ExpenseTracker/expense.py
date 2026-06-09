@@ -12,4 +12,4 @@ class Expense:
         self.amount = amount
         self.description = description
         self.category = category
-        self.date = date.date
+        self.date = date

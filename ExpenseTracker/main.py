@@ -6,11 +6,11 @@ from pytz import timezone as zone
 
 def get_info():
 
-    amount = int(input("Amount: "))
+    amount = get_int("Amount: ", 0)
     disc = input("discription: ")
-    cat = input("category")
+    cat = input("category: ")
     date = dt.now(zone("Asia/Tehran"))
-    date = date.date()
+    date = date.strftime("%Y-%m-%d")
     return amount, disc, cat, date
 
 def make_expense_obj():
@@ -72,12 +72,21 @@ while True:
         )
     
     elif option == 2:
+        print(
+            "\n0. back to menu\n" +
+            "\n1. remove an Object\n"
+        )
         
-        remove = get_int("\nEnter id to remove\n")
-        res = tracker.remove_expense(remove)
-        print(res)
+        selection = get_int("------> ",0,1)
+        if selection == 0:
+            continue
+        if selection == 1:
+            remove = get_int("\nEnter id to remove\n")
+            res = tracker.remove_expense(remove)
+            print(res)
     
     elif option == 3:
+        
         print(
             "\nselect between these options: \n" +
             "\n0. back to menu\n" +
@@ -115,6 +124,9 @@ while True:
     elif option == 5:
 
             count = get_int("Enter the count of highest values you want: ",1,len(tracker.expenses))
+            if not tracker.expenses:
+                print("No expenses available")
+                continue
             print(tracker.highest_amounts(count))
 
     elif option == 6:
