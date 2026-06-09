@@ -6,17 +6,15 @@ class ExpenseTracker:
 
     def add_expense(self, expense_obj):
         
-        self.expenses.append(expense_obj)
-        return "\n***Expense added to tracker***\n"
+        return self.expenses.append(expense_obj)
     
-    def delete_expense(self, obj_id):
+    def remove_expense(self, id_to_remove):
 
         for obj in self.expenses:
-            if obj.id == obj_id:
-                self.expenses.remove(obj)
-                return f"\n***Object with id {obj_id} deleted***\n"
-        
-        return f"\n***This id is not valid***\n"
+            if obj.id == id_to_remove:
+                self.expenses.remove(id_to_remove)
+                return("\n***Object removed successfully***\n")
+        return f"\nNo object found with Id {id_to_remove}\n"
     
     
     def show_all(self):
@@ -95,6 +93,4 @@ class ExpenseTracker:
             f"Id: {top_x[0][0]}\namount: {top_x[0][1]}\n" +
             f"Id: {top_x[1][0]}\namount: {top_x[1][1]}\n" +
             f"Id: {top_x[2][0]}\namount: {top_x[2][1]}\n"
-            )
-
-        
+        )
