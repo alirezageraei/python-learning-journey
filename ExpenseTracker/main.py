@@ -1,6 +1,6 @@
 import expense
 import expense_tracker
-
+import storage
 from  datetime import datetime as dt
 from pytz import timezone as zone
 
@@ -17,6 +17,26 @@ def make_expense_obj():
     (amount, disc, cat, date) = get_info()
     return expense.Expense(amount,disc,cat,date)
 
+def get_int(prompt, min_value=None, max_value=None):
+
+    while True:
+        try:
+            value = int(input(prompt))
+
+        except ValueError:
+            print("Please enter a valid integer")
+            continue
+
+        if min_value is not None and value < min_value:
+            print(f"Value must be at least {min_value}")
+            continue
+
+        if max_value is not None and value > max_value:
+            print(f"Value must be at most {max_value}")
+            continue
+
+        return value
+
 
 tracker = expense_tracker.ExpenseTracker()
 
@@ -31,13 +51,8 @@ while True:
     print("5. Show highest values")
     print("6. Save and Import")
 
-    try:
-        option = int(input("----------->"))
-        if option not in range(0,7):
-            raise ValueError("index out of range")
-    except ValueError as e:
-        print(e)
-        continue
+    option = get_int("------>",0,6)
+
 
     if option == 0:
         
@@ -58,24 +73,21 @@ while True:
     
     elif option == 2:
         
-        remove = int(input("\nId to remove: \n"))
+        remove = get_int("\nEnter id to remove\n")
         res = tracker.remove_expense(remove)
         print(res)
     
     elif option == 3:
         print(
             "\nselect between these options: \n" +
+            "\n0. back to menu\n" +
             "\n1. show all extenses\n" +
             "\n2. show specific category\n"
         )
-        try:
-            selection = int(input("-------->"))
-            if selection not in range(1,3):
-                raise ValueError("index out of range")
-        except ValueError as e:
-            print(e)
+        
+        selection = get_int("------> ",0,2)
+        if selection == 0:
             continue
-
         if selection == 1:
             print(tracker.show_all())
         if selection == 2:
@@ -86,17 +98,14 @@ while True:
     elif option == 4:
         print(
             "\nselect between these options: \n" +
+            "\n0. back to menu\n" +
             "\n1. show total amount\n" +
             "\n2. show specific category amount\n"
         )
-        try:
-            selection = int(input("-------->"))
-            if selection not in range(1,3):
-                raise ValueError("index out of range")
-        except ValueError as e:
-            print(e)
+        
+        selection = get_int("------> ",0,2)
+        if selection == 0:
             continue
-
         if selection == 1:
             print(tracker.total())
         if selection == 2:
@@ -104,9 +113,32 @@ while True:
             print(tracker.total_category(cat))
         
     elif option == 5:
-        try:
-            count = int(input("Enter the count of highest values you want: "))
+
+            count = get_int("Enter the count of highest values you want: ",1,len(tracker.expenses))
             print(tracker.highest_amounts(count))
-        except ValueError:
-            print("count must be an Integer")
+
+    elif option == 6:
+
+        print(
+            "\nselect between these options: \n" +
+            "\n0. back to menu\n" +
+            "\n1. save data\n" +
+            "\n2. import data\n"
+        )
+        selection = get_int("------> ",0,2)
+        if selection == 0:
             continue
+        if selection == 1:
+            object_list_data = tracker.expenses
+            storage.save_data(object_list_data)
+        if selection == 2:
+            loaded = storage.load_data("expenses.json")
+            for item in loaded:
+                tracker.add_expense(item)
+                print(
+                    f"\n***Object Added***"
+                    f"\nId: {item.id}"
+                    f"\namount: {item.amount}"
+                    f"\ndescription: {item.description[:30]}"
+                    f"\ndate: {item.date}\n"
+                )
