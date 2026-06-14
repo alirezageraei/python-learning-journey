@@ -6,5 +6,6 @@ This directory contains simple Python exercises covering fundamental topics such
 - Numbers
 - Loops
 - Conditions
-
-Some exercises also include concepts such as functions and operators.
+- Modules
+- Packages
+Some exercises also include concepts such as functions, operators and popular packages.
